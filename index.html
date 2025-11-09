@@ -1,179 +1,647 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Calculadora de Descuento 💸 | CalcSmart</title>
-  <meta name="description" content="Calcula fácil el precio final de tus compras con la calculadora de descuentos más rápida y precisa. 100% gratis.">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <title>Calculadora de Descuentos Online 🛍️ | Ahorra Dinero en Tus Compras</title>
+  <meta name="description"
+    content="Calcula descuentos fácilmente. Herramienta 100% gratuita para saber el precio final de tus compras. Aprende estrategias de ahorro y maximiza tu presupuesto.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary: #f59e0b;
+      --text: #1e293b;
+      --text-light: #64748b;
       --bg: #ffffff;
-      --text: #0f172a;
-      --light: #f1f5f9;
-      --shadow: rgba(0,0,0,0.08);
+      --bg-light: #f8fafc;
+      --border: #e2e8f0;
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+      --radius: 12px;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
 
     body {
-      background: var(--light);
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
       color: var(--text);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
+      line-height: 1.6;
       min-height: 100vh;
-      padding: 2rem 1rem;
     }
 
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header */
     header {
+      background: var(--bg);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 4rem 0;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      color: var(--text-light);
+      max-width: 600px;
+      margin: 0 auto 2rem;
+    }
+
+    /* Calculator Section */
+    .calculator-section {
+      background: var(--bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 3rem;
+      margin: 2rem auto;
+      max-width: 500px;
+    }
+
+    .calculator-title {
       text-align: center;
       margin-bottom: 2rem;
+      color: var(--text);
     }
 
-    h1 {
-      font-size: 1.9rem;
-      color: var(--primary);
-      margin-bottom: 0.5rem;
+    .input-group {
+      margin-bottom: 1.5rem;
     }
 
-    p.subtitle {
-      font-size: 1rem;
-      color: #475569;
-    }
-
-    .card {
-      background: var(--bg);
-      box-shadow: 0 4px 10px var(--shadow);
-      border-radius: 1rem;
-      padding: 2rem;
-      max-width: 400px;
-      width: 100%;
-      transition: 0.3s ease;
-    }
-
-    label {
-      font-weight: 600;
-      margin-bottom: 0.3rem;
+    .input-group label {
       display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: var(--text);
     }
 
-    input {
+    .input-group input {
       width: 100%;
-      padding: 0.75rem;
-      border-radius: 0.5rem;
-      border: 1px solid #cbd5e1;
-      margin-bottom: 1rem;
+      padding: 1rem;
+      border: 2px solid var(--border);
+      border-radius: 8px;
       font-size: 1rem;
+      transition: border-color 0.3s;
     }
 
-    input:focus {
+    .input-group input:focus {
       outline: none;
       border-color: var(--primary);
-      box-shadow: 0 0 0 2px rgba(37,99,235,0.15);
     }
 
-    button {
+    .calculate-btn {
+      width: 100%;
       background: var(--primary);
       color: white;
-      font-size: 1rem;
-      padding: 0.75rem;
       border: none;
-      border-radius: 0.5rem;
-      cursor: pointer;
-      width: 100%;
+      padding: 1rem;
+      border-radius: 8px;
+      font-size: 1.1rem;
       font-weight: 600;
+      cursor: pointer;
       transition: background 0.3s;
     }
 
-    button:hover {
-      background: #1d4ed8;
+    .calculate-btn:hover {
+      background: var(--primary-dark);
     }
 
     .result {
       display: none;
-      margin-top: 1.5rem;
-      padding: 1rem;
-      border-radius: 0.5rem;
-      text-align: center;
-      font-weight: 600;
-      background: #f0fdf4;
-      color: #16a34a;
-    }
-
-    footer {
       margin-top: 2rem;
-      text-align: center;
-      font-size: 0.9rem;
-      color: #64748b;
+      padding: 1.5rem;
+      background: var(--bg-light);
+      border-radius: 8px;
+      border-left: 4px solid var(--primary);
     }
 
-    footer a { color: var(--primary); text-decoration: none; }
+    .result h3 {
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
 
-    @media (max-width: 480px) {
-      h1 { font-size: 1.6rem; }
-      .card { padding: 1.5rem; }
+    /* Features Section */
+    .features {
+      padding: 4rem 0;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+      color: var(--text);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: var(--bg);
+      padding: 2rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .feature-card h3 {
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    /* Guide Section */
+    .guide {
+      background: var(--bg);
+      padding: 4rem 0;
+      border-radius: var(--radius);
+      margin: 2rem 0;
+    }
+
+    .guide-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .step {
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .step-number {
+      background: var(--primary);
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      font-weight: 700;
+    }
+
+    /* FAQ Section */
+    .faq {
+      padding: 4rem 0;
+    }
+
+    .faq-item {
+      background: var(--bg);
+      margin-bottom: 1rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .faq-question {
+      padding: 1.5rem;
+      background: var(--bg-light);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+    }
+
+    .faq-answer {
+      padding: 1.5rem;
+      display: none;
+      border-top: 1px solid var(--border);
+    }
+
+    /* CTA Section */
+    .cta {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      padding: 4rem 0;
+      text-align: center;
+      border-radius: var(--radius);
+      margin: 2rem 0;
+    }
+
+    .cta h2 {
+      margin-bottom: 1rem;
+      font-size: 2.5rem;
+    }
+
+    .cta p {
+      margin-bottom: 2rem;
+      font-size: 1.2rem;
+      opacity: 0.9;
+    }
+
+    .cta-button {
+      background: white;
+      color: var(--primary);
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-block;
+      transition: transform 0.3s;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--text);
+      color: white;
+      padding: 3rem 0;
+      margin-top: 4rem;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .footer-section h3 {
+      margin-bottom: 1rem;
+    }
+
+    .footer-section a {
+      color: #cbd5e1;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-section a:hover {
+      color: white;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid #334155;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .calculator-section {
+        padding: 2rem;
+        margin: 1rem;
+      }
     }
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4992460454984434"
-     crossorigin="anonymous"></script>
+    crossorigin="anonymous"></script>
 </head>
+
 <body>
+  <!-- Header -->
   <header>
-    <h1>💸 Calculadora de Descuento</h1>
-    <p class="subtitle">Descubre el precio final de tus compras al instante</p>
+    <div class="container nav-container">
+      <a href="#" class="logo">
+        <span>💸</span>
+        CalcSmart
+      </a>
+      <nav class="nav-links">
+        <a href="#calculadora">Calculadora</a>
+        <a href="#como-funciona">Cómo Funciona</a>
+        <a href="#caracteristicas">Características</a>
+        <a href="#preguntas">Preguntas Frecuentes</a>
+      </nav>
+    </div>
   </header>
 
-  <div class="card">
-    <label for="price">Precio original (S/)</label>
-    <input type="number" id="price" placeholder="Ej: 250" />
-
-    <label for="discount">Descuento (%)</label>
-    <input type="number" id="discount" placeholder="Ej: 15" />
-
-    <button onclick="calculateDiscount()">Calcular</button>
-
-    <div id="result" class="result"></div>
-
-    <!-- 🔸 Espacio para anuncio AdSense -->
-    <div style="margin-top: 20px; text-align:center;">
-      <!-- Pega aquí tu script de AdSense cuando te aprueben -->
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <h1>Calcula Descuentos en Segundos</h1>
+      <p>La herramienta online más precisa para calcular precios con descuento. Totalmente gratuita y fácil de usar.</p>
     </div>
-  </div>
+  </section>
 
+  <!-- Calculator Section -->
+  <section id="calculadora" class="calculator-section container">
+    <h2 class="calculator-title">Calculadora de Descuentos</h2>
+    <div class="input-group">
+      <label for="price">Precio Original (S/)</label>
+      <input type="number" id="price" placeholder="Ej: 250.00" min="0" step="0.01">
+    </div>
+    <div class="input-group">
+      <label for="discount">Porcentaje de Descuento (%)</label>
+      <input type="number" id="discount" placeholder="Ej: 15" min="0" max="100" step="0.1">
+    </div>
+    <button class="calculate-btn" onclick="calculateDiscount()">Calcular Precio Final</button>
+
+    <div id="result" class="result">
+      <h3>Resultado del Cálculo</h3>
+      <div id="result-content"></div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="caracteristicas" class="features">
+    <div class="container">
+      <h2 class="section-title">¿Por Qué Elegir Nuestra Calculadora?</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>Rápida y Precisa</h3>
+          <p>Resultados instantáneos con cálculos 100% precisos. Sin esperas, sin errores.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💰</div>
+          <h3>Totalmente Gratuita</h3>
+          <p>Sin costos ocultos, sin registros, sin límites de uso. Siempre gratis.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📱</div>
+          <h3>Optimizada Móvil</h3>
+          <p>Funciona perfectamente en cualquier dispositivo: PC, tablet o smartphone.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <h3>Fácil de Usar</h3>
+          <p>Interfaz intuitiva diseñada para que cualquier persona pueda usarla sin instrucciones.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Guide Section -->
+  <section id="como-funciona" class="guide">
+    <div class="container">
+      <h2 class="section-title">Cómo Calcular Descuentos en 3 Pasos</h2>
+      <div class="guide-steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>Ingresa el Precio Original</h3>
+          <p>Escribe el precio normal del producto antes de cualquier descuento.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>Agrega el Porcentaje</h3>
+          <p>Introduce el porcentaje de descuento que quieres aplicar.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>Obtén el Resultado</h3>
+          <p>Recibe instantáneamente el precio final y el monto ahorrado.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section id="preguntas" class="faq">
+    <div class="container">
+      <h2 class="section-title">Preguntas Frecuentes</h2>
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            ¿Es realmente gratuita esta calculadora?
+            <span>+</span>
+          </div>
+          <div class="faq-answer">
+            <p>Sí, completamente gratuita. No requiere registro, no tiene límites de uso y no mostraremos publicidad
+              intrusiva. Creemos en herramientas accesibles para todos.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            ¿Puedo usar la calculadora en mi tienda online?
+            <span>+</span>
+          </div>
+          <div class="faq-answer">
+            <p>Absolutamente. Nuestra calculadora es perfecta para comercios que quieren mostrar descuentos claros a sus
+              clientes. Es responsive y se adapta a cualquier diseño.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            ¿Cómo calculo un descuento del 30%?
+            <span>+</span>
+          </div>
+          <div class="faq-answer">
+            <p>Simplemente ingresa el precio original y escribe 30 en el campo de descuento. La calculadora hará el
+              resto: mostrará el precio final y cuánto estarás ahorrando.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            ¿Los cálculos son precisos?
+            <span>+</span>
+          </div>
+          <div class="faq-answer">
+            <p>100% precisos. Utilizamos fórmulas matemáticas estándar y validamos cada cálculo. Puedes confiar en
+              nuestros resultados para tus decisiones de compra.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta">
+    <div class="container">
+      <h2>¿Listo para Empezar a Ahorrar?</h2>
+      <p>Únete a miles de usuarios que ya usan nuestra calculadora para tomar mejores decisiones de compra</p>
+      <a href="#calculadora" class="cta-button">Calcular Mi Descuento</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
   <footer>
-    © 2025 <strong>CalcSmart</strong> — Herramientas rápidas y gratuitas<br>
-    <a href="politica.html">Política de Privacidad</a> | <a href="contacto.html">Contacto</a>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>CalcSmart</h3>
+          <p>Herramientas financieras gratuitas y educativas para ayudar a las personas a tomar mejores decisiones con
+            su dinero.</p>
+        </div>
+        <div class="footer-section">
+          <h3>Enlaces Rápidos</h3>
+          <a href="#calculadora">Calculadora</a>
+          <a href="#como-funciona">Cómo Funciona</a>
+          <a href="#caracteristicas">Características</a>
+          <a href="#preguntas">Preguntas Frecuentes</a>
+        </div>
+        <div class="footer-section">
+          <h3>Legal</h3>
+          <a href="politica.html">Política de Privacidad</a>
+          <a href="terminos.html">Términos de Servicio</a>
+          <a href="contacto.html">Contacto</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 CalcSmart. Todos los derechos reservados.</p>
+      </div>
+    </div>
   </footer>
 
   <script>
     function calculateDiscount() {
-      const price = parseFloat(document.getElementById("price").value);
-      const discount = parseFloat(document.getElementById("discount").value);
-      const resultDiv = document.getElementById("result");
+      const price = parseFloat(document.getElementById('price').value);
+      const discount = parseFloat(document.getElementById('discount').value);
+      const resultDiv = document.getElementById('result');
+      const resultContent = document.getElementById('result-content');
 
+      // Validaciones
       if (isNaN(price) || isNaN(discount)) {
-        resultDiv.style.display = "block";
-        resultDiv.style.background = "#fef2f2";
-        resultDiv.style.color = "#dc2626";
-        resultDiv.innerHTML = "Por favor ingresa ambos valores correctamente.";
+        resultContent.innerHTML = '<p style="color: #dc2626;">Por favor, ingresa valores válidos en ambos campos.</p>';
+        resultDiv.style.display = 'block';
         return;
       }
 
+      if (price <= 0 || discount < 0) {
+        resultContent.innerHTML = '<p style="color: #dc2626;">El precio debe ser mayor a 0 y el descuento no puede ser negativo.</p>';
+        resultDiv.style.display = 'block';
+        return;
+      }
+
+      if (discount > 100) {
+        resultContent.innerHTML = '<p style="color: #dc2626;">El descuento no puede ser mayor al 100%.</p>';
+        resultDiv.style.display = 'block';
+        return;
+      }
+
+      // Cálculos
       const discountAmount = (price * discount) / 100;
       const finalPrice = price - discountAmount;
+      const savedPercentage = ((price - finalPrice) / price * 100).toFixed(1);
 
-      resultDiv.style.display = "block";
-      resultDiv.style.background = "#f0fdf4";
-      resultDiv.style.color = "#16a34a";
-      resultDiv.innerHTML = `
-        Precio original: S/ ${price.toFixed(2)}<br>
-        Descuento: ${discount}%<br>
-        💰 <strong>Precio final: S/ ${finalPrice.toFixed(2)}</strong>
+      // Mostrar resultado
+      resultContent.innerHTML = `
+        <div style="background: white; padding: 1rem; border-radius: 8px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+            <div>
+              <strong>Precio Original:</strong><br>
+              S/ ${price.toFixed(2)}
+            </div>
+            <div>
+              <strong>Descuento:</strong><br>
+              ${discount}%
+            </div>
+          </div>
+          <div style="border-top: 2px solid #e2e8f0; padding-top: 1rem;">
+            <div style="font-size: 1.5rem; font-weight: bold; color: #059669; text-align: center;">
+              💰 Precio Final: S/ ${finalPrice.toFixed(2)}
+            </div>
+            <div style="text-align: center; margin-top: 0.5rem; color: #059669;">
+              ¡Ahorras S/ ${discountAmount.toFixed(2)} (${savedPercentage}%)!
+            </div>
+          </div>
+        </div>
       `;
+      resultDiv.style.display = 'block';
+
+      // Scroll suave al resultado
+      resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
+
+    function toggleFAQ(element) {
+      const answer = element.nextElementSibling;
+      const icon = element.querySelector('span');
+
+      if (answer.style.display === 'block') {
+        answer.style.display = 'none';
+        icon.textContent = '+';
+      } else {
+        answer.style.display = 'block';
+        icon.textContent = '-';
+      }
+    }
+
+    // Permitir calcular con Enter
+    document.addEventListener('DOMContentLoaded', function () {
+      const inputs = document.querySelectorAll('input');
+      inputs.forEach(input => {
+        input.addEventListener('keypress', function (e) {
+          if (e.key === 'Enter') {
+            calculateDiscount();
+          }
+        });
+      });
+    });
   </script>
 </body>
+
 </html>
